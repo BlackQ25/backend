@@ -17,6 +17,8 @@ RUN ./mvnw dependency:go-offline
 
 # Copia todo el código restante
 COPY . .
+RUN chmod +x mvnw
+RUN ./mvnw package -DskipTests
 
 # Compila y construye el jar
 RUN ./mvnw package -DskipTests
