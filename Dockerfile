@@ -4,11 +4,18 @@ FROM openjdk:17-jdk-alpine
 # Directorio de trabajo dentro del contenedor
 WORKDIR /app
 
-# Copia el pom.xml y descarga dependencias
+# Copia el pom.xml y el wrapper (mvnw + .mvn)
 COPY pom.xml ./
+COPY mvnw ./
+COPY .mvn .mvn
+
+# Da permisos de ejecución al wrapper
+RUN chmod +x mvnw
+
+# Descarga dependencias
 RUN ./mvnw dependency:go-offline
 
-# Copia todo el código
+# Copia todo el código restante
 COPY . .
 
 # Compila y construye el jar
